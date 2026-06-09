@@ -366,10 +366,10 @@
 (function(){
   const TOTAL = 23;
 
-  // Build both tracks first (doubled for seamless loop)
   ['strip-top','strip-mid'].forEach(function(id) {
     const track = document.getElementById(id);
-    for(let pass=0; pass<2; pass++) {
+    const passes = 6; // 6 copies — seamless loop uses half (3 sets per cycle)
+    for(let pass=0; pass<passes; pass++) {
       for(let n=1; n<=TOTAL; n++) {
         const img = document.createElement('img');
         img.className = 'film-photo';
