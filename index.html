@@ -14,7 +14,6 @@
       --cream: #FFF8F2;
       --dark:  #2A0A14;
     }
-
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body {
@@ -31,7 +30,7 @@
       width:52px; height:52px; border-radius:50%; border:none;
       background:var(--burg); color:white; font-size:1.4rem; cursor:pointer;
       box-shadow:0 4px 20px rgba(123,29,58,.45);
-      transition:transform .2s,box-shadow .2s;
+      transition:transform .2s, box-shadow .2s;
       display:flex; align-items:center; justify-content:center;
     }
     #music-btn:hover { transform:scale(1.1); }
@@ -42,18 +41,20 @@
     #hero {
       position:relative; min-height:100vh;
       background:linear-gradient(140deg,#1a0510 0%,#7B1D3A 55%,#C4607A 100%);
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
       text-align:center; overflow:hidden;
     }
     .particles { position:absolute; inset:0; pointer-events:none; }
     .particle {
-      position:absolute; animation:float-up linear infinite; opacity:0; user-select:none;
+      position:absolute; animation:float-up linear infinite;
+      opacity:0; user-select:none;
     }
     @keyframes float-up {
-      0%  { transform:translateY(105vh) rotate(0deg);   opacity:0; }
+      0%  { transform:translateY(105vh) rotate(0deg);  opacity:0; }
       8%  { opacity:1; }
       92% { opacity:.7; }
-      100%{ transform:translateY(-5vh) rotate(720deg);  opacity:0; }
+      100%{ transform:translateY(-5vh)  rotate(720deg); opacity:0; }
     }
     .hero-content { position:relative; z-index:2; padding:2rem 1.5rem; }
     .hero-cake {
@@ -74,8 +75,9 @@
     .hero-badge {
       display:inline-block; margin-top:2rem;
       background:rgba(255,255,255,.15); backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,.25); padding:.45rem 1.6rem;
-      border-radius:50px; color:white; font-size:.95rem;
+      border:1px solid rgba(255,255,255,.25);
+      padding:.45rem 1.6rem; border-radius:50px;
+      color:white; font-size:.95rem;
       animation:slide-up .8s ease both .65s;
     }
     .scroll-hint {
@@ -104,26 +106,20 @@
       background:#111;
       position:relative;
       overflow:hidden;
-      /* side fade vignette */
-      -webkit-mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%);
-      mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%);
     }
-
-    /* sprocket holes top & bottom */
+    /* Sprocket holes: light rectangles on dark bg */
     .filmstrip::before,
     .filmstrip::after {
       content:'';
-      position:absolute; left:0; right:0; height:20px; z-index:2;
-      background:#111
-        repeating-linear-gradient(
-          to right,
-          transparent 0px, transparent 5px,
-          #d6d0c4 5px, #d6d0c4 21px,
-          transparent 21px, transparent 32px
-        );
-      background-blend-mode:normal;
-      background-size:32px 20px;
-      background-position:12px 2px;
+      position:absolute; left:0; right:0; height:20px; z-index:3;
+      background:repeating-linear-gradient(
+        to right,
+        #111   0px,  #111   6px,
+        #cfc8ba 6px,  #cfc8ba 22px,
+        #111  22px,  #111  34px
+      );
+      background-size:34px 14px;
+      background-position:10px 3px;
       background-repeat:repeat-x;
     }
     .filmstrip::before { top:0; }
@@ -133,36 +129,21 @@
       padding:20px 0;
       overflow:hidden;
     }
-
     .filmstrip-track {
       display:flex;
-      gap:6px;
-      width:max-content;
+      gap:4px;
+      will-change:transform;
     }
-    .track-left  { animation:scroll-left  45s linear infinite; }
-    .track-right { animation:scroll-right 45s linear infinite; }
-
-    @keyframes scroll-left  {
-      0%   { transform:translateX(0); }
-      100% { transform:translateX(-50%); }
+    /* pause on hover */
+    .filmstrip:hover .filmstrip-track {
+      animation-play-state:paused !important;
     }
-    @keyframes scroll-right {
-      0%   { transform:translateX(-50%); }
-      100% { transform:translateX(0); }
-    }
-
-    .filmstrip:hover .filmstrip-track { animation-play-state:paused; }
-
     .film-photo {
-      height:180px;
+      height:175px;
       width:auto;
       flex-shrink:0;
       display:block;
-      filter:sepia(10%) contrast(1.05) brightness(.97);
-      transition:filter .3s;
-    }
-    .filmstrip:hover .film-photo:hover {
-      filter:sepia(0%) contrast(1.1) brightness(1.05) scale(1.02);
+      filter:sepia(12%) contrast(1.05) brightness(.96);
     }
 
     /* ── SECTION COMMON ── */
@@ -187,28 +168,27 @@
       top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;
     }
     .blessing-wrap { max-width:660px; margin:0 auto; }
-
     .bl-intro {
-      text-align:center; font-size:1.05rem; color:var(--rose); font-weight:500;
-      margin-bottom:2.2rem; opacity:0; transform:translateY(20px);
-      transition:opacity .8s,transform .8s;
+      text-align:center; font-size:1.05rem; color:var(--rose);
+      font-weight:500; margin-bottom:2.2rem;
+      opacity:0; transform:translateY(20px);
+      transition:opacity .8s, transform .8s;
     }
     .bl-intro.vis { opacity:1; transform:translateY(0); }
-
     .bl-stanza {
       margin-bottom:1.6rem; padding:1.4rem 1.8rem;
       background:rgba(255,255,255,.72); backdrop-filter:blur(10px);
       border-radius:16px; border-right:4px solid var(--rose-l);
       opacity:0; transform:translateX(28px);
-      transition:opacity .75s ease,transform .75s ease;
+      transition:opacity .75s ease, transform .75s ease;
     }
     .bl-stanza.vis { opacity:1; transform:translateX(0); }
     .bl-stanza p  { font-size:clamp(.98rem,2.4vw,1.1rem); line-height:2; color:var(--dark); font-weight:300; }
     .bl-stanza p+p { margin-top:.4rem; }
-
     .bl-sig {
       text-align:center; margin-top:2.2rem; font-size:1.15rem;
-      font-weight:600; color:var(--burg); opacity:0; transition:opacity .9s ease .2s;
+      font-weight:600; color:var(--burg);
+      opacity:0; transition:opacity .9s ease .2s;
     }
     .bl-sig.vis { opacity:1; }
 
@@ -219,10 +199,8 @@
     }
     #wheel-sec .sec-title { color:white; }
     #wheel-sec .sec-line  { background:linear-gradient(90deg,var(--rose-l),var(--gold)); }
-
     .wheel-sub { color:rgba(255,255,255,.7); margin-bottom:2.4rem; font-size:1rem; }
     .wheel-wrap { display:flex; flex-direction:column; align-items:center; gap:2rem; }
-
     .wheel-outer {
       position:relative;
       width:min(320px,88vw); height:min(320px,88vw);
@@ -233,26 +211,27 @@
     }
     .wheel-ptr {
       position:absolute; top:-14px; left:50%; transform:translateX(-50%);
-      font-size:2.2rem; filter:drop-shadow(0 3px 8px rgba(0,0,0,.5)); z-index:10;
+      font-size:2.2rem;
+      filter:drop-shadow(0 3px 8px rgba(0,0,0,.5));
+      z-index:10;
     }
-
     #spin-btn {
       padding:.95rem 2.8rem; font-size:1.15rem;
       font-family:'Heebo',sans-serif; font-weight:700; color:var(--dark);
       background:linear-gradient(135deg,var(--gold),#F0C060);
       border:none; border-radius:50px; cursor:pointer;
       box-shadow:0 6px 30px rgba(212,168,83,.45);
-      transition:transform .2s,box-shadow .2s; letter-spacing:.02em;
+      transition:transform .2s, box-shadow .2s;
     }
     #spin-btn:hover { transform:translateY(-2px); box-shadow:0 10px 40px rgba(212,168,83,.55); }
     #spin-btn:disabled { opacity:.55; cursor:default; transform:none; }
-
     .wheel-result { min-height:80px; display:flex; align-items:center; justify-content:center; }
     .result-bubble {
       background:rgba(255,255,255,.12); backdrop-filter:blur(12px);
       border:1px solid rgba(255,255,255,.22); border-radius:20px;
       padding:1.1rem 1.8rem; color:white; font-size:1.2rem; font-weight:500;
-      max-width:380px; display:none; animation:pop-in .5s cubic-bezier(.175,.885,.32,1.275);
+      max-width:380px; display:none;
+      animation:pop-in .5s cubic-bezier(.175,.885,.32,1.275);
     }
     .result-bubble.show { display:block; }
     @keyframes pop-in { 0%{transform:scale(.5);opacity:0} 100%{transform:scale(1);opacity:1} }
@@ -292,10 +271,10 @@
   </div>
 </section>
 
-<!-- ════ FILMSTRIP 1 (top) ════ -->
-<div class="filmstrip">
+<!-- ════ FILMSTRIP 1 — top ════ -->
+<div class="filmstrip" id="fs1">
   <div class="filmstrip-scroll">
-    <div class="filmstrip-track track-left" id="strip-top"></div>
+    <div class="filmstrip-track" id="strip-top"></div>
   </div>
 </div>
 
@@ -337,10 +316,10 @@
   </div>
 </section>
 
-<!-- ════ FILMSTRIP 2 (middle) ════ -->
-<div class="filmstrip">
+<!-- ════ FILMSTRIP 2 — middle ════ -->
+<div class="filmstrip" id="fs2">
   <div class="filmstrip-scroll">
-    <div class="filmstrip-track track-right" id="strip-mid"></div>
+    <div class="filmstrip-track" id="strip-mid"></div>
   </div>
 </div>
 
@@ -374,7 +353,7 @@
   for(let i=0;i<28;i++){
     const el=document.createElement('div');
     el.className='particle';
-    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.textContent=emojis[i%emojis.length];
     el.style.left=Math.random()*100+'%';
     el.style.fontSize=(.7+Math.random()*1.4)+'rem';
     el.style.animationDuration=(5+Math.random()*7)+'s';
@@ -384,173 +363,244 @@
 })();
 
 // ── FILMSTRIPS ─────────────────────────────────
+// Build each strip: 23 photos doubled for seamless loop
+// Then use Web Animations API after images load so width is accurate
 (function(){
-  const TOTAL=23;
-  // Duplicate photos for seamless infinite scroll
-  const nums=[...Array(TOTAL).keys()].map(i=>i+1);
-  const doubled=[...nums,...nums];
+  const TOTAL = 23;
+  const ids   = ['strip-top','strip-mid'];
 
-  ['strip-top','strip-mid'].forEach(id=>{
-    const track=document.getElementById(id);
-    doubled.forEach(n=>{
-      const img=document.createElement('img');
-      img.className='film-photo';
-      img.src='photo-'+n+'.jpeg';
-      img.alt='';
-      img.loading='lazy';
+  ids.forEach(function(id, stripIdx) {
+    const track = document.getElementById(id);
+    const allNums = [];
+    for(let i=1;i<=TOTAL;i++) allNums.push(i);
+    // duplicate
+    allNums.concat(allNums).forEach(function(n){
+      const img = document.createElement('img');
+      img.className = 'film-photo';
+      img.src = 'photo-' + n + '.jpeg';
+      img.alt = '';
+      img.loading = 'eager';
       track.appendChild(img);
     });
+
+    // Start animation once images have loaded (or timeout after 3s)
+    let started = false;
+    function startAnim() {
+      if(started) return;
+      started = true;
+      const halfW = track.scrollWidth / 2;
+      if(halfW < 10) return; // nothing loaded
+      const duration = halfW / 60; // ~60px/s
+      const fromX = stripIdx === 0 ? '0px' : '-' + halfW + 'px';
+      const toX   = stripIdx === 0 ? '-' + halfW + 'px' : '0px';
+      track.animate(
+        [{ transform: 'translateX(' + fromX + ')' },
+         { transform: 'translateX(' + toX   + ')' }],
+        { duration: duration * 1000, iterations: Infinity, easing: 'linear' }
+      );
+    }
+
+    // Try after first image loads
+    const firstImg = track.querySelector('img');
+    firstImg.addEventListener('load', function() { setTimeout(startAnim, 50); });
+    // Fallback: start after 3s regardless
+    setTimeout(startAnim, 3000);
+
+    // Pause on hover
+    document.getElementById(id === 'strip-top' ? 'fs1' : 'fs2')
+      .addEventListener('mouseenter', function(){ track.getAnimations().forEach(a=>a.pause()); });
+    document.getElementById(id === 'strip-top' ? 'fs1' : 'fs2')
+      .addEventListener('mouseleave', function(){ track.getAnimations().forEach(a=>a.play()); });
   });
 })();
 
 // ── SCROLL REVEAL ──────────────────────────────
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
-},{threshold:.12});
+const obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('vis'); });
+}, {threshold:.12});
 
-document.querySelectorAll('.bl-stanza,.bl-intro,.bl-sig').forEach((el,i)=>{
+document.querySelectorAll('.bl-stanza,.bl-intro,.bl-sig').forEach(function(el,i){
   if(el.classList.contains('bl-stanza')) el.style.transitionDelay=(i*.12)+'s';
   obs.observe(el);
 });
 
 // ── WHEEL ──────────────────────────────────────
-const SEGS=[
-  {text:['שנה מלאה','בהרפתקאות ✨'],  color:'#8B1A4A'},
-  {text:['צחוקים',  'עד דמעות 😂'],   color:'#B84565'},
-  {text:['הפתעות',  'מתוקות 🎁'],     color:'#7B1D3A'},
-  {text:['בריאות',  'ואנרגיה 💪'],    color:'#A03055'},
-  {text:['חוויות שלא','תשכחי 🌟'],    color:'#C4607A'},
-  {text:['להרגיש',  'אהובה ❤️'],      color:'#943050'},
-  {text:['ריקודים', 'בלילות 🌙'],     color:'#D0607A'},
-  {text:['כל מה',   'שליבך רוצה 🌸'],color:'#6B1530'},
+const SEGS = [
+  {text:['שנה מלאה','בהרפתקאות ✨'],  bg:'#8B1A4A'},
+  {text:['צחוקים',  'עד דמעות 😂'],   bg:'#B84565'},
+  {text:['הפתעות',  'מתוקות 🎁'],     bg:'#7B1D3A'},
+  {text:['בריאות',  'ואנרגיה 💪'],    bg:'#A03055'},
+  {text:['חוויות שלא','תשכחי 🌟'],    bg:'#C4607A'},
+  {text:['להרגיש',  'אהובה ❤️'],      bg:'#943050'},
+  {text:['ריקודים', 'בלילות 🌙'],     bg:'#D0607A'},
+  {text:['כל מה',   'שליבך רוצה 🌸'],bg:'#6B1530'},
 ];
 
-const wc=document.getElementById('wheel-canvas');
-const wx=wc.getContext('2d');
-const W=320; wc.width=wc.height=W;
-const cx=W/2,cy=W/2,R=W/2-6;
-const SA=(Math.PI*2)/SEGS.length;
-let rot=0,spinning=false;
+const wc  = document.getElementById('wheel-canvas');
+const wx  = wc.getContext('2d');
+const W   = 320;
+wc.width = wc.height = W;
+const CX  = W/2, CY = W/2, R = W/2 - 6;
+const SA  = (Math.PI*2) / SEGS.length;
+let rot = 0, spinning = false;
 
-function drawWheel(r){
-  wx.clearRect(0,0,W,W);
-  wx.beginPath(); wx.arc(cx,cy,R+5,0,Math.PI*2);
-  wx.fillStyle='#D4A853'; wx.fill();
+function drawWheel(r) {
+  wx.clearRect(0, 0, W, W);
 
-  SEGS.forEach((seg,i)=>{
-    const a0=r+i*SA, a1=a0+SA;
-    wx.beginPath(); wx.moveTo(cx,cy); wx.arc(cx,cy,R,a0,a1); wx.closePath();
-    wx.fillStyle=seg.color; wx.fill();
-    wx.strokeStyle='rgba(255,255,255,.28)'; wx.lineWidth=1.5; wx.stroke();
+  // Gold rim
+  wx.beginPath();
+  wx.arc(CX, CY, R+5, 0, Math.PI*2);
+  wx.fillStyle = '#D4A853';
+  wx.fill();
 
+  SEGS.forEach(function(seg, i) {
+    const a0 = r + i*SA;
+    const a1 = a0 + SA;
+
+    // Segment fill
+    wx.beginPath();
+    wx.moveTo(CX, CY);
+    wx.arc(CX, CY, R, a0, a1);
+    wx.closePath();
+    wx.fillStyle = seg.bg;
+    wx.fill();
+    wx.strokeStyle = 'rgba(255,255,255,.3)';
+    wx.lineWidth = 1.5;
+    wx.stroke();
+
+    // Text — positioned radially along the segment centre
+    const midAngle = a0 + SA/2;
+    const fs = Math.floor(W * 0.048);
     wx.save();
-    wx.translate(cx,cy); wx.rotate(a0+SA/2);
-    wx.textAlign='center';
-    wx.fillStyle='rgba(255,255,255,.95)';
-    const fs=W*.048;
-    wx.font='bold '+fs+'px Heebo,sans-serif';
-    seg.text.forEach((line,j)=>{
-      wx.fillText(line,0,R*.62+(j-(seg.text.length-1)/2)*(fs*1.35));
+    wx.translate(CX, CY);
+    wx.rotate(midAngle);
+    // x-axis now points outward along segment midpoint
+    wx.textAlign = 'center';
+    wx.textBaseline = 'middle';
+    wx.fillStyle = 'rgba(255,255,255,.95)';
+    wx.font = 'bold ' + fs + 'px Heebo, sans-serif';
+    const radPos = R * 0.62; // distance from center
+    const lineH  = fs * 1.4;
+    seg.text.forEach(function(line, j) {
+      const yOff = (j - (seg.text.length-1)/2) * lineH;
+      // radPos along x-axis (radially), yOff along y-axis (tangentially)
+      wx.fillText(line, radPos, yOff);
     });
     wx.restore();
   });
 
-  wx.beginPath(); wx.arc(cx,cy,26,0,Math.PI*2);
-  const g=wx.createRadialGradient(cx-4,cy-4,0,cx,cy,26);
-  g.addColorStop(0,'#F5D070'); g.addColorStop(1,'#C9902A');
-  wx.fillStyle=g; wx.fill();
-  wx.strokeStyle='white'; wx.lineWidth=2.5; wx.stroke();
-  wx.font=(W*.09)+'px serif'; wx.textAlign='center';
-  wx.fillText('🎂',cx,cy+10);
+  // Centre cap
+  wx.beginPath();
+  wx.arc(CX, CY, 26, 0, Math.PI*2);
+  const g = wx.createRadialGradient(CX-4, CY-4, 0, CX, CY, 26);
+  g.addColorStop(0, '#F5D070');
+  g.addColorStop(1, '#C9902A');
+  wx.fillStyle = g;
+  wx.fill();
+  wx.strokeStyle = 'white';
+  wx.lineWidth = 2.5;
+  wx.stroke();
+  wx.font = Math.floor(W*.09) + 'px serif';
+  wx.textAlign = 'center';
+  wx.textBaseline = 'middle';
+  wx.fillText('🎂', CX, CY+2);
 }
-drawWheel(0);
 
-function spinWheel(){
+// Draw after font is ready
+document.fonts.ready.then(function(){ drawWheel(0); });
+
+function spinWheel() {
   if(spinning) return;
-  spinning=true;
-  document.getElementById('spin-btn').disabled=true;
+  spinning = true;
+  document.getElementById('spin-btn').disabled = true;
   document.getElementById('result-bubble').classList.remove('show');
 
-  const extra=6+Math.random()*6;
-  const total=extra*Math.PI*2+Math.random()*Math.PI*2;
-  const dur=4200, t0=performance.now(), r0=rot;
+  const extra = 6 + Math.random()*6;
+  const total = extra * Math.PI*2 + Math.random()*Math.PI*2;
+  const dur   = 4200;
+  const t0    = performance.now();
+  const r0    = rot;
 
-  function ease(t){return 1-Math.pow(1-t,4);}
+  function ease(t){ return 1 - Math.pow(1-t, 4); }
 
-  function frame(now){
-    const t=Math.min((now-t0)/dur,1);
-    rot=r0+total*ease(t);
+  function frame(now) {
+    const t  = Math.min((now-t0)/dur, 1);
+    rot = r0 + total * ease(t);
     drawWheel(rot);
-    if(t<1){requestAnimationFrame(frame);return;}
+    if(t < 1) { requestAnimationFrame(frame); return; }
 
-    spinning=false;
-    document.getElementById('spin-btn').disabled=false;
+    spinning = false;
+    document.getElementById('spin-btn').disabled = false;
 
-    const norm=((rot%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
-    const ptr=(Math.PI*2*1.5-norm+Math.PI*2)%(Math.PI*2);
-    const idx=Math.floor(ptr/SA)%SEGS.length;
-    showResult(SEGS[idx].text.join(' '));
+    // Which segment is under the top pointer (pointer at top = angle -π/2)
+    const norm   = ((rot % (Math.PI*2)) + Math.PI*2) % (Math.PI*2);
+    const ptr    = ((Math.PI*2*1.5) - norm + Math.PI*2) % (Math.PI*2);
+    const segIdx = Math.floor(ptr / SA) % SEGS.length;
+    showResult(SEGS[segIdx].text.join(' '));
     launchConfetti();
   }
   requestAnimationFrame(frame);
 }
 
-function showResult(text){
-  const el=document.getElementById('result-bubble');
-  el.textContent='✨  '+text+'  ✨';
+function showResult(text) {
+  const el = document.getElementById('result-bubble');
+  el.textContent = '✨  ' + text + '  ✨';
   el.classList.add('show');
 }
 
 // ── CONFETTI ───────────────────────────────────
-const cc=document.getElementById('confetti-canvas');
-const cx2=cc.getContext('2d');
-let pieces=[],cRunning=false;
+const cc   = document.getElementById('confetti-canvas');
+const cctx = cc.getContext('2d');
+let pieces = [], cRunning = false;
 
 function resizeCC(){ cc.width=window.innerWidth; cc.height=window.innerHeight; }
-resizeCC(); window.addEventListener('resize',resizeCC);
+resizeCC();
+window.addEventListener('resize', resizeCC);
 
 function launchConfetti(){
-  pieces=[];
+  pieces = [];
   const colors=['#C4607A','#D4A853','#8B1A4A','#E8A5B5','#F0C060','#fff','#FBCDD8'];
   for(let i=0;i<140;i++) pieces.push({
-    x:Math.random()*window.innerWidth, y:-10,
-    w:7+Math.random()*8, h:4+Math.random()*5,
-    color:colors[Math.floor(Math.random()*colors.length)],
-    vx:(Math.random()-.5)*7, vy:1.5+Math.random()*4,
-    ang:Math.random()*Math.PI*2, spin:(Math.random()-.5)*.22,
+    x: Math.random()*window.innerWidth, y: -10,
+    w: 7+Math.random()*8, h: 4+Math.random()*5,
+    color: colors[i % colors.length],
+    vx: (Math.random()-.5)*7, vy: 1.5+Math.random()*4,
+    ang: Math.random()*Math.PI*2, spin: (Math.random()-.5)*.22,
   });
-  if(!cRunning){cRunning=true;animConf();}
+  if(!cRunning){ cRunning=true; animConf(); }
 }
 
 function animConf(){
-  cx2.clearRect(0,0,cc.width,cc.height);
-  pieces=pieces.filter(p=>p.y<cc.height+20);
-  pieces.forEach(p=>{
+  cctx.clearRect(0,0,cc.width,cc.height);
+  pieces = pieces.filter(function(p){ return p.y < cc.height+20; });
+  pieces.forEach(function(p){
     p.x+=p.vx; p.y+=p.vy; p.vy+=.07; p.ang+=p.spin;
-    cx2.save(); cx2.translate(p.x,p.y); cx2.rotate(p.ang);
-    cx2.fillStyle=p.color; cx2.fillRect(-p.w/2,-p.h/2,p.w,p.h);
-    cx2.restore();
+    cctx.save();
+    cctx.translate(p.x,p.y); cctx.rotate(p.ang);
+    cctx.fillStyle=p.color;
+    cctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+    cctx.restore();
   });
   if(pieces.length) requestAnimationFrame(animConf);
-  else{cRunning=false;cx2.clearRect(0,0,cc.width,cc.height);}
+  else { cRunning=false; cctx.clearRect(0,0,cc.width,cc.height); }
 }
 
 // ── MUSIC ──────────────────────────────────────
-const audio=document.getElementById('bg-music');
-const mBtn=document.getElementById('music-btn');
-let playing=false;
+const audio = document.getElementById('bg-music');
+const mBtn  = document.getElementById('music-btn');
+let playing = false;
 
 function toggleMusic(){
-  if(!audio.src||audio.src===window.location.href){
+  if(!audio.src || audio.src === window.location.href){
     alert('עוד לא הוספתי שיר 🎵\nתוסיף קובץ MP3 לתיקייה ותעדכן את ה-src בקוד!');
     return;
   }
   if(playing){
     audio.pause(); mBtn.textContent='🎵'; mBtn.classList.remove('playing');
   } else {
-    audio.play().catch(()=>{});  mBtn.textContent='🔊'; mBtn.classList.add('playing');
+    audio.play().catch(function(){}); mBtn.textContent='🔊'; mBtn.classList.add('playing');
   }
-  playing=!playing;
+  playing = !playing;
 }
 </script>
 </body>
