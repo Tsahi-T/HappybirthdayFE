@@ -125,54 +125,40 @@
     @keyframes slide-up  { from{transform:translateY(28px);opacity:0} to{transform:translateY(0);opacity:1} }
     @keyframes fade-in   { from{opacity:0} to{opacity:1} }
 
-    /* ── FILMSTRIP ── */
-    .filmstrip {
-      background:#111;
-      position:relative;
-      overflow:hidden;
+    /* ── COLLAGE ── */
+    #collage {
+      padding: 4rem 1.5rem 5rem;
+      background: linear-gradient(160deg, #FFF4EE 0%, #FDDDE8 50%, #FFF0F5 100%);
     }
-    .filmstrip::before,
-    .filmstrip::after {
-      content:'';
-      position:absolute; left:0; right:0; height:20px; z-index:3;
-      background: repeating-linear-gradient(
-        to right,
-        #111   0px,  #111   6px,
-        #d0c8b8 6px, #d0c8b8 22px,
-        #111  22px,  #111  34px
-      );
-      background-size: 34px 14px;
-      background-position: 10px 3px;
-      background-repeat: repeat-x;
+    .collage-grid {
+      columns: 4 160px;
+      column-gap: 14px;
+      max-width: 1100px;
+      margin: 0 auto;
     }
-    .filmstrip::before { top:0; }
-    .filmstrip::after  { bottom:0; }
-
-    .filmstrip-scroll { padding:20px 0; overflow:hidden; }
-
-    .filmstrip-track {
-      display:flex;
-      gap:4px;
-      width:max-content;
+    .pol {
+      break-inside: avoid;
+      margin-bottom: 14px;
+      background: white;
+      padding: 8px 8px 28px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.13);
+      display: block;
+      transition: transform .3s ease, box-shadow .3s ease;
+      position: relative;
     }
-    /* Pure CSS animation — browser calculates percentages from element's own width */
-    #strip-top { animation: scroll-left  50s linear infinite; }
-    #strip-mid { animation: scroll-right 50s linear infinite; }
-
-    @keyframes scroll-left  {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+    /* alternating tilts */
+    .pol:nth-child(3n+1) { transform: rotate(-2deg); }
+    .pol:nth-child(3n+2) { transform: rotate( 1.5deg); }
+    .pol:nth-child(3n)   { transform: rotate(-1deg); }
+    .pol:hover {
+      transform: rotate(0deg) scale(1.04) !important;
+      box-shadow: 0 12px 40px rgba(139,26,74,.25);
+      z-index: 10;
     }
-    @keyframes scroll-right {
-      from { transform: translateX(-50%); }
-      to   { transform: translateX(0); }
-    }
-
-    .filmstrip:hover .filmstrip-track { animation-play-state:paused; }
-
-    .film-photo {
-      height:175px; width:auto; flex-shrink:0; display:block;
-      filter:sepia(10%) contrast(1.05) brightness(.96);
+    .pol img {
+      width: 100%;
+      display: block;
+      filter: contrast(1.03) brightness(.98);
     }
 
     /* ── SECTION COMMON ── */
@@ -302,12 +288,12 @@
   </div>
 </section>
 
-<!-- ════ FILMSTRIP 1 ════ -->
-<div class="filmstrip">
-  <div class="filmstrip-scroll">
-    <div class="filmstrip-track" id="strip-top"></div>
-  </div>
-</div>
+<!-- ════ COLLAGE ════ -->
+<section id="collage">
+  <h2 class="sec-title">📸 הרגעים שלנו</h2>
+  <div class="sec-line"></div>
+  <div class="collage-grid" id="collage-grid"></div>
+</section>
 
 <!-- ════ BLESSING ════ -->
 <section id="blessing">
@@ -341,12 +327,6 @@
   </div>
 </section>
 
-<!-- ════ FILMSTRIP 2 ════ -->
-<div class="filmstrip">
-  <div class="filmstrip-scroll">
-    <div class="filmstrip-track" id="strip-mid"></div>
-  </div>
-</div>
 
 <!-- ════ WHEEL ════ -->
 <section id="wheel-sec">
@@ -386,22 +366,19 @@
   }
 })();
 
-// ── FILMSTRIPS — pure CSS handles animation, JS only builds DOM ──
+// ── COLLAGE ────────────────────────────────────
 (function(){
-  const TOTAL = 23;
-  // 4 copies: CSS translateX(-50%) moves by exactly 2 copies → seamless loop
-  ['strip-top','strip-mid'].forEach(function(id){
-    const track = document.getElementById(id);
-    for(let pass=0; pass<4; pass++){
-      for(let n=1; n<=TOTAL; n++){
-        const img = document.createElement('img');
-        img.className = 'film-photo';
-        img.src = 'photo-'+n+'.jpeg';
-        img.alt = '';
-        track.appendChild(img);
-      }
-    }
-  });
+  const grid = document.getElementById('collage-grid');
+  for(let n=1; n<=23; n++){
+    const card = document.createElement('div');
+    card.className = 'pol';
+    const img = document.createElement('img');
+    img.src = 'photo-'+n+'.jpeg';
+    img.alt = '';
+    img.loading = 'lazy';
+    card.appendChild(img);
+    grid.appendChild(card);
+  }
 })();
 
 // ── SCROLL REVEAL ──────────────────────────────
