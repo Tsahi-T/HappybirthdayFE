@@ -126,33 +126,36 @@
     @keyframes fade-in   { from{opacity:0} to{opacity:1} }
 
     /* ── COLLAGE ── */
-    #collage {
-      padding: 4rem 1.5rem 5rem;
-      background: linear-gradient(160deg, #FFF4EE 0%, #FDDDE8 50%, #FFF0F5 100%);
+    .collage-sec {
+      padding: 3.5rem 2rem 4rem;
+    }
+    .collage-sec:first-of-type {
+      background: linear-gradient(160deg, #FFF4EE 0%, #FDE8F0 100%);
     }
     .collage-grid {
-      columns: 4 160px;
-      column-gap: 14px;
-      max-width: 1100px;
+      columns: 3 200px;
+      column-gap: 22px;
+      max-width: 1000px;
       margin: 0 auto;
     }
     .pol {
       break-inside: avoid;
-      margin-bottom: 14px;
+      margin-bottom: 22px;
       background: white;
-      padding: 8px 8px 28px;
-      box-shadow: 0 4px 18px rgba(0,0,0,.13);
+      padding: 9px 9px 32px;
+      box-shadow: 0 5px 22px rgba(0,0,0,.12);
       display: block;
       transition: transform .3s ease, box-shadow .3s ease;
       position: relative;
+      cursor: default;
     }
-    /* alternating tilts */
-    .pol:nth-child(3n+1) { transform: rotate(-2deg); }
-    .pol:nth-child(3n+2) { transform: rotate( 1.5deg); }
-    .pol:nth-child(3n)   { transform: rotate(-1deg); }
+    .pol:nth-child(4n+1) { transform: rotate(-2.2deg); }
+    .pol:nth-child(4n+2) { transform: rotate( 1.8deg); }
+    .pol:nth-child(4n+3) { transform: rotate(-1.2deg); }
+    .pol:nth-child(4n)   { transform: rotate( 2.5deg); }
     .pol:hover {
-      transform: rotate(0deg) scale(1.04) !important;
-      box-shadow: 0 12px 40px rgba(139,26,74,.25);
+      transform: rotate(0deg) scale(1.05) !important;
+      box-shadow: 0 14px 44px rgba(139,26,74,.22);
       z-index: 10;
     }
     .pol img {
@@ -288,11 +291,11 @@
   </div>
 </section>
 
-<!-- ════ COLLAGE ════ -->
-<section id="collage">
+<!-- ════ COLLAGE TOP (photos 1–12) ════ -->
+<section class="collage-sec">
   <h2 class="sec-title">📸 הרגעים שלנו</h2>
   <div class="sec-line"></div>
-  <div class="collage-grid" id="collage-grid"></div>
+  <div class="collage-grid" id="collage-top"></div>
 </section>
 
 <!-- ════ BLESSING ════ -->
@@ -316,17 +319,22 @@
     </div>
     <div class="bl-stanza">
       <p>ולכבוד יום ההולדת אגיד לך גם משהו אישי,<br>שמח מאוד שאת חלק מהדרך שלי.</p>
-      <p>תודה על השיחות, על הרגעים הקטנים,<br>על הצחוקים, המחשבות והצבעים השונים.</p>
+      <p>אוהב אותך ומודה עליך!</p>
     </div>
     <div class="bl-stanza">
+      <p>תודה על השיחות, על הרגעים הקטנים,<br>על הצחוקים, המחשבות והצבעים השונים.</p>
       <p>אני מאחל לך שכל הטוב שאת מפזרת סביבך,<br>יחזור אלייך השנה בכפולות של שמחה.</p>
-      <p>ותדעי שיש מי שמעריך, אוהב ושמח בך מאוד,<br>גם ביום ההולדת - וגם בכל יום שעוד יבוא.</p>
-      <p>אז הזדמנות לומר תודה עלייך.<br><strong>מזל טוב, אהובה שלי ❤️</strong></p>
+      <p><strong>מזל טוב, אהובה שלי ❤️</strong></p>
     </div>
-    <div class="bl-sig">— ממני, צחי 💕</div>
+    <div class="bl-sig">— ממני, צחי</div>
   </div>
 </section>
 
+
+<!-- ════ COLLAGE BOTTOM (photos 13–23) ════ -->
+<section class="collage-sec">
+  <div class="collage-grid" id="collage-bot"></div>
+</section>
 
 <!-- ════ WHEEL ════ -->
 <section id="wheel-sec">
@@ -368,17 +376,21 @@
 
 // ── COLLAGE ────────────────────────────────────
 (function(){
-  const grid = document.getElementById('collage-grid');
-  for(let n=1; n<=23; n++){
-    const card = document.createElement('div');
-    card.className = 'pol';
-    const img = document.createElement('img');
-    img.src = 'photo-'+n+'.jpeg';
-    img.alt = '';
-    img.loading = 'lazy';
-    card.appendChild(img);
-    grid.appendChild(card);
+  function addPhotos(gridId, from, to){
+    const grid = document.getElementById(gridId);
+    for(let n=from; n<=to; n++){
+      const card = document.createElement('div');
+      card.className = 'pol';
+      const img = document.createElement('img');
+      img.src = 'photo-'+n+'.jpeg';
+      img.alt = '';
+      img.loading = 'lazy';
+      card.appendChild(img);
+      grid.appendChild(card);
+    }
   }
+  addPhotos('collage-top', 1, 12);
+  addPhotos('collage-bot', 13, 23);
 })();
 
 // ── SCROLL REVEAL ──────────────────────────────
