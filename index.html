@@ -363,55 +363,60 @@
 })();
 
 // ── FILMSTRIPS ─────────────────────────────────
-// Build each strip: 23 photos doubled for seamless loop
-// Then use Web Animations API after images load so width is accurate
 (function(){
   const TOTAL = 23;
-  const ids   = ['strip-top','strip-mid'];
 
-  ids.forEach(function(id, stripIdx) {
+  // Build both tracks first (doubled for seamless loop)
+  ['strip-top','strip-mid'].forEach(function(id) {
     const track = document.getElementById(id);
-    const allNums = [];
-    for(let i=1;i<=TOTAL;i++) allNums.push(i);
-    // duplicate
-    allNums.concat(allNums).forEach(function(n){
-      const img = document.createElement('img');
-      img.className = 'film-photo';
-      img.src = 'photo-' + n + '.jpeg';
-      img.alt = '';
-      img.loading = 'eager';
-      track.appendChild(img);
-    });
-
-    // Start animation once images have loaded (or timeout after 3s)
-    let started = false;
-    function startAnim() {
-      if(started) return;
-      started = true;
-      const halfW = track.scrollWidth / 2;
-      if(halfW < 10) return; // nothing loaded
-      const duration = halfW / 60; // ~60px/s
-      const fromX = stripIdx === 0 ? '0px' : '-' + halfW + 'px';
-      const toX   = stripIdx === 0 ? '-' + halfW + 'px' : '0px';
-      track.animate(
-        [{ transform: 'translateX(' + fromX + ')' },
-         { transform: 'translateX(' + toX   + ')' }],
-        { duration: duration * 1000, iterations: Infinity, easing: 'linear' }
-      );
+    for(let pass=0; pass<2; pass++) {
+      for(let n=1; n<=TOTAL; n++) {
+        const img = document.createElement('img');
+        img.className = 'film-photo';
+        img.src = 'photo-' + n + '.jpeg';
+        img.alt = '';
+        track.appendChild(img);
+      }
     }
-
-    // Try after first image loads
-    const firstImg = track.querySelector('img');
-    firstImg.addEventListener('load', function() { setTimeout(startAnim, 50); });
-    // Fallback: start after 3s regardless
-    setTimeout(startAnim, 3000);
-
-    // Pause on hover
-    document.getElementById(id === 'strip-top' ? 'fs1' : 'fs2')
-      .addEventListener('mouseenter', function(){ track.getAnimations().forEach(a=>a.pause()); });
-    document.getElementById(id === 'strip-top' ? 'fs1' : 'fs2')
-      .addEventListener('mouseleave', function(){ track.getAnimations().forEach(a=>a.play()); });
   });
+
+  // Store animation refs for hover control
+  const anims = {};
+
+  function startMarquee(id, dir) {
+    if(anims[id]) return; // already started
+    const track = document.getElementById(id);
+    const halfW = track.scrollWidth / 2;
+    if(halfW < 100) return; // images not ready yet
+
+    const dur = (halfW / 65) * 1000; // 65px per second
+    const from = dir === 'left' ? 'translateX(0px)'       : 'translateX(-' + halfW + 'px)';
+    const to   = dir === 'left' ? 'translateX(-' + halfW + 'px)' : 'translateX(0px)';
+
+    anims[id] = track.animate(
+      [{ transform: from }, { transform: to }],
+      { duration: dur, iterations: Infinity, easing: 'linear' }
+    );
+
+    // Hover: pause / resume
+    const wrapper = track.closest('.filmstrip');
+    wrapper.addEventListener('mouseenter', function(){ anims[id].pause(); });
+    wrapper.addEventListener('mouseleave', function(){ anims[id].play();  });
+  }
+
+  function tryStart() {
+    startMarquee('strip-top', 'left');
+    startMarquee('strip-mid', 'right');
+  }
+
+  // Primary: after all images on the page are loaded
+  window.addEventListener('load', tryStart);
+  // Fallback: retry every 500ms for 5s in case load already fired
+  let attempts = 0;
+  const retry = setInterval(function() {
+    tryStart();
+    if(++attempts >= 10 || (anims['strip-top'] && anims['strip-mid'])) clearInterval(retry);
+  }, 500);
 })();
 
 // ── SCROLL REVEAL ──────────────────────────────
